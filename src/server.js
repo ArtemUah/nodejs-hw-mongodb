@@ -20,13 +20,13 @@ app.use(
   );
 
 
-app.use('*', (err, req, res, next) => {
+app.use('*', (err, req, res) => {
     res.status(404).json({
         message: 'Not Found'
     });
 });
 
-app.listen(port, ()=> console.log(`Server is running in PORT ${port}`))
+app.listen(port, ()=> console.log(`Server is running in PORT ${port}`));
 
 };
 
