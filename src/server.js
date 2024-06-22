@@ -33,6 +33,11 @@ app.use(cors());
   app.get('/contacts/:id', async(req, res)=>{
     const {id} = req.params;
     const data = await getContactById(id);
+    if(!data) {
+      res.status(404).json({
+        message: `Error 404.Contact with ID ${id} is not found.`
+      });
+    }
     res.json({
       status: 200,
       message:"Successfully found contact with id {contactId}!",
