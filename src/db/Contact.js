@@ -20,7 +20,7 @@ isFavourite: {
 },
 contactType: {
     type: String,
-    required: true,
+    required: false,
     enum: types,
     default: 'personal',
 }
