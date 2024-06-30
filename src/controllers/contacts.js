@@ -1,4 +1,4 @@
-import { deleteContact, getAllContacts, getContactById, postContact } from "../services/contacts.js";
+import { deleteContact, getAllContacts, getContactById, postContact, upsertContact } from "../services/contacts.js";
 import createHttpError from 'http-errors';
 
 export const getAllContactsController = async(req,res)=>{
@@ -45,3 +45,18 @@ export const getAllContactsController = async(req,res)=>{
 
     res.status(204).json({});
   };
+
+  export const upsertContactController = async (req, res) => {
+    const {id} = req.params;
+    const result = await upsertContact({_id:id}, req.body, {upsert:true});
+
+    const status = result.isNew ? 201 : 200;
+    const message = result.isNew ? 'Contact successfully added' : 'Contact successfully updated';
+
+    res.status(status).json({
+      status,
+      message,
+      data: result.data.value,
+    });
+
+    };

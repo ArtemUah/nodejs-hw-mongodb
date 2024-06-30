@@ -9,3 +9,15 @@ export const postContact = (data) => Contact.create(data);
 
 export const deleteContact = (filter) => Contact.findOneAndDelete(filter);
 
+export const upsertContact = async(filter, data, options={}) => {
+const result = await Contact.findOneAndUpdate(filter, data, {new: true,
+    includeResultMetadata: true,
+    ...options,});
+
+    if(!result || !result.value) return null;
+
+    return ({
+        data: result,
+        isNew:Boolean(result?.lastErrorObject?.upserted)
+    });
+};
