@@ -21,3 +21,5 @@ const result = await Contact.findOneAndUpdate(filter, data, {new: true,
         isNew:Boolean(result?.lastErrorObject?.upserted)
     });
 };
+
+export const updateContact = (filter, data, options = {}) => Contact.findOneAndUpdate(filter, data, {new: true, ...options});
