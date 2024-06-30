@@ -7,3 +7,5 @@ export const getContactById = (id) => Contact.findById(id);
 
 export const postContact = (data) => Contact.create(data);
 
+export const deleteContact = (filter) => Contact.findOneAndDelete(filter);
+
