@@ -30,6 +30,6 @@ contactType: {
     versionKey: false,
   });
 
-const Contact = mongoose.model('my-contact', contactSchema);
+const Contact = mongoose.model('my-contacts', contactSchema);
 
 export default Contact;
