@@ -22,4 +22,3 @@ const result = await Contact.findOneAndUpdate(filter, data, {new: true,
     });
 };
 
-export const updateContact = (filter, data, options = {}) => Contact.findOneAndUpdate(filter, data, {new: true, ...options});
