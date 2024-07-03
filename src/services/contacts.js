@@ -1,7 +1,11 @@
 import Contact from "../db/Contact.js";
 
 
-export const getAllContacts = () => Contact.find();
+export const getAllContacts = ({page, perPage}) => {
+    const skip = (page - 1)* perPage;
+
+    return Contact.find().skip(skip).limit(perPage);
+};
 
 export const getContactById = (id) => Contact.findById(id);
 

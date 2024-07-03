@@ -1,12 +1,27 @@
 import { deleteContact, getAllContacts, getContactById, postContact, upsertContact } from "../services/contacts.js";
 import createHttpError from 'http-errors';
+import parsePaginationParams from "../utils/parsePaginationParams.js";
+import calcPaginationData from "../utils/calcPaginationData.js";
 
 export const getAllContactsController = async(req,res)=>{
-    const data = await getAllContacts();
+  const {page, perPage} = parsePaginationParams(req.query);
+  const {totalItems, totalPages, hasPreviousPage, hasNextPage} = calcPaginationData(page, perPage);
+
+    const data = await getAllContacts({
+      page,
+      perPage
+    });
+
     res.json({
       status:200,
       message:"Successfully found contacts!",
-      data
+      data,
+      page,
+      perPage,
+      totalItems,
+      totalPages,
+      hasPreviousPage,
+      hasNextPage
     });
   };
 
