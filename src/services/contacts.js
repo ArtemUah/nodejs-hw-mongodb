@@ -1,10 +1,10 @@
 import Contact from "../db/Contact.js";
 
 
-export const getAllContacts = ({page, perPage}) => {
+export const getAllContacts = ({page, perPage, sortBy, sortOrder}) => {
     const skip = (page - 1)* perPage;
 
-    return Contact.find().skip(skip).limit(perPage);
+    return Contact.find().skip(skip).limit(perPage).sort({[sortBy]:sortOrder});
 };
 
 export const getContactById = (id) => Contact.findById(id);
