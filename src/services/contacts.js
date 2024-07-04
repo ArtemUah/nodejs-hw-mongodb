@@ -12,8 +12,8 @@ export const getAllContacts = async ({page, perPage, sortBy, sortOrder, isFavour
     };
 
     const items = await dataBaseQuery.skip(skip).limit(perPage).sort({[sortBy]:sortOrder});
-    const totalItems = await Contact.find().merge(dataBaseQuery).countDocuments();
-    const {totalPages, hasPreviousPage, hasNextPage} = calcPaginationData(page, perPage);
+    const totalItems = await Contact.find().countDocuments();
+    const {totalPages, hasPreviousPage, hasNextPage} = calcPaginationData(page, perPage, totalItems);
 
 
     return {
