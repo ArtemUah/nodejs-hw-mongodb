@@ -2,6 +2,8 @@ import { randomBytes} from 'crypto';
 import Session from '../db/Session.js';
 import { accessTokenLifetime, refreshTokenLifetime } from '../constants/index.js';
 
+export const findSession = filter => Session.findOne(filter);
+
 export const createSession = async(userId) => {
     await Session.deleteOne({userId});
     const accessToken = randomBytes(30).toString('base64');
