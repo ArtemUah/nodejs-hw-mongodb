@@ -21,7 +21,11 @@ const sessionSchema = new Schema({
         type: Date,
         required: true,
     }
-});
+},
+{
+    timestamps: true,
+    versionKey: false,
+  });
 
 const Session = model('session', sessionSchema);
 

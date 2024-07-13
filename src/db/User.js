@@ -14,13 +14,17 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    // createdAt: {
-    //     type: Date,
-    // },
-    // updatedAt: {
-    //     type: Date
-    // }
-});
+    createdAt: {
+        type: Date,
+    },
+    updatedAt: {
+        type: Date
+    }
+},
+{
+    timestamps: true,
+    versionKey: false,
+  });
 
 const User = model('user', userSchema);
 export default User;
