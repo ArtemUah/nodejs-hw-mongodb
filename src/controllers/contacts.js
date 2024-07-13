@@ -102,3 +102,5 @@ export const getAllContactsController = async(req,res)=>{
         data: result.data.value
       });
     };
+
+  
