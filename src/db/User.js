@@ -6,7 +6,7 @@ const userSchema = new Schema({
         required: true,
     },
     email: {
-        type: Schema.Types.ObjectId,
+        type: String,
         unique: true,
         required: true,
     },
