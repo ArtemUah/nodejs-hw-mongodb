@@ -4,7 +4,7 @@ import { findUser } from "../services/auth.js";
 
 const authenticate = async (req, res, next) => {
 const authHeader = req.get('Authorization');
-console.log(authHeader);
+
 if(!authHeader) {
     return next(createHttpError(401, 'Authorization Header is missing'));
 };
@@ -17,7 +17,7 @@ return next(createHttpError(401, 'Authorization must be Bearer type'));
 if(!accessToken) {
 return next(createHttpError(401, 'accessToken is missing'));
 };
-const currentSession = findSession({accessToken});
+const currentSession = await findSession({accessToken});
 
 if(!currentSession) {
     return next(createHttpError(401, 'Session not found'));
@@ -29,7 +29,8 @@ if(accessTokenIsExpired) {
     return next(401, 'Access token is expired');
 };
 
-const user = findUser({_id: currentSession.userId});
+const user = await findUser({_id: currentSession.userId});
+
 if(!user) {
     return next(createHttpError(401, 'User not found'));
 };

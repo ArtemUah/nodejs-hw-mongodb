@@ -1,9 +1,13 @@
 import Contact from "../db/Contact.js";
 import calcPaginationData from '../utils/calcPaginationData.js';
 
-export const getAllContacts = async ({page, perPage, sortBy, sortOrder, isFavourite, contactType}) => {
+export const getAllContacts = async ({page, perPage, sortBy, sortOrder, isFavourite, contactType, userId}) => {
     const skip = (page - 1)* perPage;
     const dataBaseQuery = Contact.find();
+
+    if(userId) {
+        dataBaseQuery.where('userId').equals(userId);
+    }
     if(isFavourite) {
         dataBaseQuery.where('isFavourite').equals(isFavourite);
     };
@@ -27,7 +31,7 @@ export const getAllContacts = async ({page, perPage, sortBy, sortOrder, isFavour
     };
 };
 
-export const getContactById = (id) => Contact.findById(id);
+export const getContactById = (filter) => Contact.findOne(filter);
 
 export const postContact = (data) => Contact.create(data);
 
