@@ -4,6 +4,8 @@ import parsePaginationParams from "../utils/parsePaginationParams.js";
 import parseSortParams from '../utils/parsSortParams.js';
 import parseFilterParams from '../utils/parseFilterParams.js';
 
+import saveFileToUploadDir from '../utils/saveFileToUploadDir.js';
+
 export const getAllContactsController = async(req,res)=>{
   const {_id:userId} = req.user;
 
@@ -47,7 +49,13 @@ export const getAllContactsController = async(req,res)=>{
    export const postContactController = async (req, res) => {
     const {_id:userId} = req.user;
 
-    const result = await postContact({...req.body, userId});
+    const photo = req.file;
+    let photoUrl = '';
+    if(photo) {
+      photoUrl = await saveFileToUploadDir(photo);
+    };
+
+    const result = await postContact({...req.body, userId, photo: photoUrl});
 
     res.status(201).json({
       status:201,
@@ -103,4 +111,4 @@ export const getAllContactsController = async(req,res)=>{
       });
     };
 
-  
+

@@ -131,7 +131,7 @@ await sendMail({
     from: env('SMTP_FROM'),
     to: email,
     subject: 'Reset your password',
-    html: `<p>Click <a href='https://${app_domain}}/reset-password?token=${resetToken}'>here</a> to reset your password!</p>`
+    html: `<p>Click <a href='https://${app_domain}/auth/reset-password?token=${resetToken}'>here</a> to reset your password!</p>`
 });
 
 res.status(200).json(
