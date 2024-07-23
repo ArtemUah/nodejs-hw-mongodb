@@ -2,6 +2,12 @@ import createHttpError from "http-errors";
 import { findUser, registerNewUser } from "../services/auth.js";
 import bcrypt from 'bcryptjs';
 import { createSession, deleteSession, findSession } from "../services/session.js";
+import jwt from "jsonwebtoken";
+import env from '../utils/env.js';
+import sendMail from "../utils/sendEmail.js";
+
+const app_domain = env('APP_DOMAIN');
+const jwt_secret = env('JWT_SECRET');
 
 export const userRegisterController = async (req, res) => {
     const {email, password} = req.body;
@@ -100,4 +106,40 @@ res.clearCookie('sessionId');
 res.clearCookie('refreshToken');
 
 res.status(204).send();
+};
+
+export const resetEmailController = async (req, res) => {
+    const {email} = req.body;
+
+    const user = await findUser({email});
+
+    if(!user) {
+        throw createHttpError(404, 'User not found!');
+    };
+
+    const resetToken = jwt.sign({
+        sub: user._id,
+        email,
+    },
+    jwt_secret,
+{
+    expiresIn: '15m'
+}
+);
+
+await sendMail({
+    from: env('SMTP_FROM'),
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Click <a href='https://${app_domain}}/reset-password?token=${resetToken}'>here</a> to reset your password!</p>`
+});
+
+res.status(200).json(
+    {
+        status: 200,
+        message: "Reset password email has been successfully sent.",
+        data: {}
+    }
+
+)
 };
