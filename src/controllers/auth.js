@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { findUser, registerNewUser } from "../services/auth.js";
+import { findUser, registerNewUser, updateUser } from "../services/auth.js";
 import bcrypt from 'bcryptjs';
 import { createSession, deleteSession, findSession } from "../services/session.js";
 import jwt from "jsonwebtoken";
@@ -118,7 +118,7 @@ export const resetEmailController = async (req, res) => {
     };
 
     const resetToken = jwt.sign({
-        sub: user._id,
+        id: user._id,
         email,
     },
     jwt_secret,
@@ -141,5 +141,36 @@ res.status(200).json(
         data: {}
     }
 
-)
+);
+};
+
+export const newPasswordController = async (req, res) => {
+    const {token, password} = req.body;
+    try {
+        const {email} = jwt.verify(token, jwt_secret);
+        const user = await findUser({email});
+
+        if(!user) {
+            throw createHttpError(404, 'User not found');
+        };
+        const encryptedPassword = await bcrypt.hash(password, 10);
+
+        await updateUser({email: user.email}, {password: encryptedPassword});
+
+        await deleteSession({userId: user._id});
+
+        res.status(200).json(
+            {
+                status: 200,
+                message: "Password has been successfully reset.",
+                data: {}
+            }
+
+        );
+
+
+    } catch (error) {
+        throw createHttpError(401, 'Token is expired or invalid.');
+    }
+
 };
