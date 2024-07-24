@@ -11,14 +11,12 @@ api_secret: env('API_SECRET_KEY')
 
 
 const saveFileToCloudinary = async (file, folder) => {
-    try {
         const response = await cloudinary.v2.uploader.upload(file.path, {
             folder,
         });
+        await fs.unlink(file.path);
         return response.secure_url;
-    } catch (error) {
-        throw createHttpError(500, error);
-    }
+
 };
 
 export default saveFileToCloudinary;
