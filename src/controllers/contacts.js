@@ -53,7 +53,7 @@ export const getAllContactsController = async(req,res)=>{
     const {_id:userId} = req.user;
 
     const photo = req.file;
-    console.log(photo);
+
     let photoUrl = '';
     if(photo) {
       if(env('ENABLE_CLOUDINARY') === 'true') {
@@ -109,8 +109,18 @@ export const getAllContactsController = async(req,res)=>{
     export const updateContactController = async (req, res) => {
       const {_id: userId} = req.user;
 
+      const photo = req.file;
+
+    let photoUrl = '';
+    if(photo) {
+      if(env('ENABLE_CLOUDINARY') === 'true') {
+        photoUrl = await saveFileToCloudinary(photo, 'contacts');
+      } else {
+        photoUrl = await saveFileToUploadDir(photo);
+      }
+    };
       const {id} = req.params;
-      const result = await upsertContact({_id:id, userId}, req.body);
+      const result = await upsertContact({_id:id, userId}, {...req.body, photo: photoUrl});
 
       if(!result) {
         throw createHttpError(404, 'Contact not found');

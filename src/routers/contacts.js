@@ -20,6 +20,6 @@ contactsRouter.delete('/:id', ctrlWrapper(deleteContactController));
 
 contactsRouter.put('/:id',validateBody(addContactSchema), ctrlWrapper(upsertContactController));
 
-contactsRouter.patch('/:id',validateBody(updateContactSchema), ctrlWrapper(updateContactController));
+contactsRouter.patch('/:id',upload.single('photo'), validateBody(updateContactSchema), ctrlWrapper(updateContactController));
 
 export default contactsRouter;
