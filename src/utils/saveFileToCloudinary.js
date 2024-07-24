@@ -1,7 +1,6 @@
 import cloudinary from 'cloudinary';
 import env from '../utils/env.js';
 import fs from 'node:fs/promises';
-import createHttpError from 'http-errors';
 
 cloudinary.v2.config({
 cloud_name: env('CLOUD_NAME'),
