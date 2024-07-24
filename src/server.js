@@ -25,7 +25,7 @@ const app = express();
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static(UPLOAD_DIR));
+app.use('/temp',express.static(UPLOAD_DIR));
 
 
 app.use('/contacts', contactsRouter);

@@ -4,7 +4,10 @@ import parsePaginationParams from "../utils/parsePaginationParams.js";
 import parseSortParams from '../utils/parsSortParams.js';
 import parseFilterParams from '../utils/parseFilterParams.js';
 
+import saveFileToCloudinary from "../utils/saveFileToCloudinary.js";
 import saveFileToUploadDir from '../utils/saveFileToUploadDir.js';
+
+import env from '../utils/env.js';
 
 export const getAllContactsController = async(req,res)=>{
   const {_id:userId} = req.user;
@@ -50,12 +53,21 @@ export const getAllContactsController = async(req,res)=>{
     const {_id:userId} = req.user;
 
     const photo = req.file;
+    console.log(photo);
     let photoUrl = '';
     if(photo) {
-      photoUrl = await saveFileToUploadDir(photo);
+      if(env('ENABLE_CLOUDINARY') === 'true') {
+        photoUrl = await saveFileToCloudinary(photo, 'contacts');
+      } else {
+        photoUrl = await saveFileToUploadDir(photo);
+      }
     };
 
     const result = await postContact({...req.body, userId, photo: photoUrl});
+
+    if (!result) {
+    throw createHttpError(404, 'User not found');
+    }
 
     res.status(201).json({
       status:201,
