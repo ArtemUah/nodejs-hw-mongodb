@@ -53,7 +53,7 @@ export const getAllContactsController = async(req,res)=>{
     const {_id:userId} = req.user;
 
     const photo = req.file;
-
+  
     let photoUrl = '';
     if(photo) {
       if(env('ENABLE_CLOUDINARY') === 'true') {
@@ -110,8 +110,8 @@ export const getAllContactsController = async(req,res)=>{
       const {_id: userId} = req.user;
 
       const photo = req.file;
-
     let photoUrl = '';
+
     if(photo) {
       if(env('ENABLE_CLOUDINARY') === 'true') {
         photoUrl = await saveFileToCloudinary(photo, 'contacts');
