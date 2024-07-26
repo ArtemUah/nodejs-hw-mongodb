@@ -8,6 +8,7 @@ import errorHandler from './middleware/errorHandler.js';
 import notFoundHandler from './middleware/notFoundHandler.js';
 import authRouter from './routers/auth.js';
 import { UPLOAD_DIR } from './constants/index.js';
+import swaggerDocs from './middleware/swaggerDocs.js';
 
 const port = env('PORT', '3000');
 
@@ -15,17 +16,19 @@ const setupServer = () => {
 
 const app = express();
 
-// app.use(
-//   pino({
-//     transport: {
-//       target: 'pino-pretty',
-//     },
-//   }),
-// );
+app.use(
+  pino({
+    transport: {
+      target: 'pino-pretty',
+    },
+  }),
+);
+
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(UPLOAD_DIR));
+app.use('/api-docs', swaggerDocs());
 
 
 app.use('/contacts', contactsRouter);
