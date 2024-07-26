@@ -37,7 +37,10 @@ requestBody:
           contactType:
             description: 'What is typo of contact'
             type: string
-            enum: ['work', 'home', 'personal']
+            enum:
+              - work
+              - home
+              - personal
             example: personal
           photo:
             description: "Link to contact's photo"
