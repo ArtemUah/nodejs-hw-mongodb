@@ -15,13 +15,14 @@ const setupServer = () => {
 
 const app = express();
 
-// app.use(
-//   pino({
-//     transport: {
-//       target: 'pino-pretty',
-//     },
-//   }),
-// );
+app.use(
+  pino({
+    transport: {
+      target: 'pino-pretty',
+    },
+  }),
+);
+
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
