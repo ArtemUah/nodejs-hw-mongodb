@@ -13,8 +13,8 @@ tags:
   - name: Auth
     description: Auth operations.
 servers:
-  - url: https://nodejs-hw-mongodb-7-3kd1.onrender.com
-  - url: http://localhost:3000
+  - url: https://nodejs-hw-mongodb-7-u4jn.onrender.com
+  - url: https://nodejs-hw-mongodb-7-u4jn.onrender.com/api-docs
 paths:
   /contacts:
     get:
