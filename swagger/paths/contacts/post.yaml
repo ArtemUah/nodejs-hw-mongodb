@@ -23,7 +23,7 @@ requestBody:
           phoneNumber:
             description: "Contact's phoneNumber"
             type: string
-            example: asdkfj;as
+            example: +3809769843
           email:
             description: "Contact's email"
             type: string
@@ -41,6 +41,7 @@ requestBody:
               - personal
             example: personal
           photo:
+            description: "Contact's photo"
             type: string
             format: binary
 responses:
